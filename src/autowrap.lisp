@@ -9,6 +9,8 @@
                     "/usr/include/arm-linux-gnueabihf"
                     "/usr/local/include/SDL2")
   :include-sources ("SDL_mixer.h")
+  :sysincludes `,(cl:append
+                   (cl:list (uiop:getenv "EXTRA_INCLUDES")))
   :exclude-constants ("^(?!MIX)")
   :symbol-exceptions (("SDL_RWops" . "SDL-RWOPS"))
   :no-accessors cl:t
