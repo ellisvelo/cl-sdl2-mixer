@@ -130,6 +130,11 @@ success -1 on error"
   (check-rc (mix-play-music mix-music-object
                             loops)))
 
+(defun fade-in-music (mix-music-object &optional (loops -1) (ms 1000))
+  "Fade in music over MS milliseconds and repeat as specified by LOOPS. The
+default number of milliseconds for fade in is 1000."
+  (check-rc (mix-fade-in-music mix-music-object loops ms)))
+
 (defun halt-music ()
   "Halts the playback of all music"
   (mix-halt-music))
