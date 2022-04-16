@@ -135,6 +135,10 @@ success -1 on error"
 default number of milliseconds for fade in is 1000."
   (check-rc (mix-fade-in-music mix-music-object loops ms)))
 
+(defun fade-out-music (ms)
+  "Fade out the music over MS milliseconds and then halt it."
+  (check-zero (mix-fade-out-music ms)))
+
 (defun halt-music ()
   "Halts the playback of all music"
   (mix-halt-music))

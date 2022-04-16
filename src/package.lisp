@@ -24,4 +24,5 @@
    #:play-music
    #:halt-music
    #:fade-in-music
+   #:fade-out-music
    #:volume-music))

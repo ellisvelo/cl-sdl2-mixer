@@ -11,6 +11,13 @@
          (error 'sdl-mixer-error :rc ,rc :string (sdl-get-error)))
        ,rc)))
 
+(defmacro check-zero (form)
+  (with-gensyms (rc)
+    `(let ((,rc ,form))
+       (when (zerop ,rc)
+         (error 'sdl-mixer-error :rc ,rc :string (sdl-get-error)))
+       ,rc)))
+
 (defmacro check-non-zero (form)
   (with-gensyms (rc)
     `(let ((,rc ,form))
