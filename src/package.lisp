@@ -25,4 +25,7 @@
    #:halt-music
    #:fade-in-music
    #:fade-out-music
+   #:pause-music
+   #:resume-music
+   #:music-paused-p
    #:volume-music))

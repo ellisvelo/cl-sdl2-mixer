@@ -139,6 +139,23 @@ default number of milliseconds for fade in is 1000."
   "Fade out the music over MS milliseconds and then halt it."
   (check-zero (mix-fade-out-music ms)))
 
+(defun pause-music ()
+  "Pause the music stream"
+  (mix-pause-music))
+
+(defun resume-music ()
+  "Resume the music stream"
+  (mix-resume-music))
+
+(defun sdl-mixer-true-p (integer-bool)
+  "Use this function to convert from a low level wrapped SDL_Mixer function
+returning an SDL_true into CL's boolean type system."
+  (= (autowrap:enum-value 'sdl2-ffi:sdl-bool :true) integer-bool))
+
+(defun music-paused-p ()
+  "Return T when the music is paused"
+  (sdl-mixer-true-p (mix-paused-music)))
+
 (defun halt-music ()
   "Halts the playback of all music"
   (mix-halt-music))
