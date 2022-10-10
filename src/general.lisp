@@ -12,6 +12,11 @@
 
 (autowrap:define-bitmask-from-enum (init-flags sdl2-ffi:mix-init-flags))
 
+(defun sdl-mixer-true-p (integer-bool)
+  "Use this function to convert from a low level wrapped SDL_Mixer function
+returning an SDL_true into CL's boolean type system."
+  (<= (autowrap:enum-value 'sdl2-ffi:sdl-bool :true) integer-bool))
+
 (defun init (&rest flags)
   "Initialize the SDL mixer specifying the formats you wish to use. Must be one
 of these values or a combination thereof :ogg, :wave, :mod, :mp3"
@@ -109,6 +114,18 @@ playing and 0 otherwise. Passing -1 for the channel will specify how many
 channels are playing."
   (mix-playing channel))
 
+(defun pause-channel (channel)
+  "Pauses the CHANNEL. A value of -1 will pause all channels."
+  (mix-pause channel))
+
+(defun resume-channel (channel)
+  "Resumes a paused CHANNEL. A value of -1 will resume all channels."
+  (mix-resume channel))
+
+(defun paused-channel-p (channel)
+  "Returns T when the CHANNEL is paused."
+  (sdl-mixer-true-p (mix-paused channel)))
+
 (defun halt-channel (channel)
   "Halt the channel or pass -1 to halt all channels. Always returns 0. NOTE:
 Channels are 0 indexed!"
@@ -147,13 +164,8 @@ default number of milliseconds for fade in is 1000."
   "Resume the music stream"
   (mix-resume-music))
 
-(defun sdl-mixer-true-p (integer-bool)
-  "Use this function to convert from a low level wrapped SDL_Mixer function
-returning an SDL_true into CL's boolean type system."
-  (= (autowrap:enum-value 'sdl2-ffi:sdl-bool :true) integer-bool))
-
-(defun music-paused-p ()
-  "Return T when the music is paused"
+(defun paused-music-p ()
+  "Return T when the music stream is paused"
   (sdl-mixer-true-p (mix-paused-music)))
 
 (defun halt-music ()
