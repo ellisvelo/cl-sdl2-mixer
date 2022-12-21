@@ -16,6 +16,7 @@
    #:allocate-channels
    #:volume
    #:play-channel
+   #:set-channel-finished-callback
    #:halt-channel
    #:playing
    #:free-chunk
