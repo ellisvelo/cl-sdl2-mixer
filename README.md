@@ -7,7 +7,7 @@ The following functions are currently available to the users
 * `(sdl2-mixer:linked-version)`: Returns the version number for SDL Mixer 2. Calls [Mix_Linked_Version](https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC8)
 * `(sdl2-mixer:init &rest formats)`: Initialize the SDL mixer specifying the formats you wish to use. Must be one of these values or a combination thereof `:ogg`, `:wave`, `:mod`, `:mp3`. Calls [Mix_Init](https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC9).
 * `(sdl2-mixer:quit)` Cleans up SDL Mixer. Calls [Mix_Quit](https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC10).
-* `(sdl2-mixer:open-audio frequency format channels chunksize)`: Initialize the mixer specifiying the output sample format, number of output channels (1 mono or 2 for stereo), and bytes used per output sample. format must be one of the following values, `:u8`, `:s8`, `:u16lsb`, `:s16lsb`, `:u16msb`, `:s16msb`, `:u16`, `:s16`, `:u16sys`, `:s16sys`. Calls [Mix_OpenAudio](https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC11)
+* `(sdl2-mixer:open-audio frequency format channels chunksize)`: Initialize the mixer specifiying the output sample format, number of output channels (1 mono or 2 for stereo), and bytes used per output sample. format must be one of the following values, `:u8`, `:s8`, `:u16lsb`, `:s16lsb`, `:u16msb`, `:s16msb`, `:u16`, `:s16`, `:u16sys`, `:s16sys`, `:s32lsb`, `:s32msb`, `:s32sys`, `:s32`, `:f32lsb`, `:f32msb`, `:f32sys`, `:f32`. Calls [Mix_OpenAudio](https://wiki.libsdl.org/SDL_mixer/Mix_OpenAudio)
 * `(sdl2-mixer:close-audio)`: Closes the mixer. Calls [Mix_CloseAudio](https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC12)
 * `(sdl2-mixer:query-format)`: Gets the output format in use by the opened audio device. Calls [Mix_QuerySpec](https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC15)
 * `(sdl2-mixer:load-wav sample-file-name)`: Loads the sample specified by the sample-file-name. Returns a mix-chunk. sdl2-mixer must be initialized and open-audio must be called prior to. Calls  [Mix_LoadWav_RW](https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC20). Please refer to the source comments for more details if you are interested in why it calls Mix_LoadWav_RW as opposed to Mix_LoadWav
@@ -24,6 +24,37 @@ The following functions are currently available to the users
 
 ## Examples
 A simple example program has been provided. Ogg support is required to run it however. Press the space bar to play the sound effect/song, the up directional key to increase the volume by 20 and the down directional key to decrease the volume by 20. The current volume is displayed in standard-output.
+
+## Regenerating CFFI Bindings
+
+This library uses [cl-autowrap](https://github.com/rpav/cl-autowrap) to generate CFFI bindings. If you need to regenerate the bindings, follow these steps:
+
+1. Delete the existing bindings:
+
+```
+$ rm -f src/spec/SDL_mixer.*.spec
+```
+
+2. Reload the system in a REPL. This action will automatically regenerate the bindings:
+
+```
+${LISP-sbcl} \
+    --load "sdl2-mixer.asd" \
+    --eval "(ql:quickload '(:sdl2-mixer))" \
+    --eval "(uiop:quit)"
+```
+
+In most cases, this process should work without issues. However, if you encounter problems (usually due to environment-specific factors like missing include headers), you can use the `C_INCLUDE_PATH` environment variable to specify additional include paths:
+
+```
+C_INCLUDE_PATH=/data1/include:/data1/lib/include \
+    ${LISP-sbcl} \
+        --load "sdl2-mixer.asd" \
+        --eval "(ql:quickload '(:sdl2-mixer))" \
+        --eval "(uiop:quit)"
+```
+
+This approach allows you to provide the necessary include paths without modifying the source code.
 
 ## Issues
 
