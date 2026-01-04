@@ -1,6 +1,7 @@
 (in-package #:sdl2-mixer)
 
 (defmacro create-sdl-free-function (free-function sdl-object)
+  "A macro to free and invalidate the SDL-OBJECT."
   `(progn (tg:cancel-finalization ,sdl-object)
           (,free-function ,sdl-object)
           (autowrap:invalidate ,sdl-object)))
@@ -152,6 +153,7 @@ Channels are 0 indexed!"
     (mix-free-music ptr)))
 
 (defun free-music (mix-music-object)
+  "Free and invalidate the MIX-MUSIC-OBJECT."
   (create-sdl-free-function mix-free-music mix-music-object))
 
 (defun play-music (mix-music-object &optional (loops -1))
@@ -160,6 +162,10 @@ default loops is -1 which makes the music loop indefinitely. Returns 0 on
 success -1 on error"
   (check-rc (mix-play-music mix-music-object
                             loops)))
+
+(defun playing-music-p ()
+  "Returns T when music is playing"
+  (sdl-mixer-true-p (mix-playing-music)))
 
 (defun fade-in-music (mix-music-object &optional (loops -1) (ms 1000))
   "Fade in music over MS milliseconds and repeat as specified by LOOPS. The

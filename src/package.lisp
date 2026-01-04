@@ -30,6 +30,7 @@
    #:resume-channel
    #:paused-channel-p
    #:pause-music
+   #:playing-music-p
    #:resume-music
    #:paused-music-p
    #:volume-music))
