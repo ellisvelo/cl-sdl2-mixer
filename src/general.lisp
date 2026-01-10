@@ -119,8 +119,8 @@ channel the sample is played on. NOTE: Channels are 0 indexed!"
 
 (defun set-channel-finished-callback (cffi-callback-channel-finished-fn)
   "Sets a callback that will be invoked after the channel has finished
-playing. CFFI-CALLBACK-FINISHED-FN is defined with CFFI:DEFCALLBACK and does not
-have any arguments. Using a value of NIL will disable the callback."
+playing. CFFI-CALLBACK-FINISHED-FN is defined with CFFI:DEFCALLBACK and uses a
+channel argument. Specifying a value of NIL will disable the callback."
   (mix-channel-finished cffi-callback-channel-finished-fn))
 
 (defun playing (channel)
