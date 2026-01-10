@@ -19,6 +19,7 @@
    #:set-channel-finished-callback
    #:halt-channel
    #:playing
+   #:set-music-finished-callback
    #:free-chunk
    #:load-music
    #:free-music
